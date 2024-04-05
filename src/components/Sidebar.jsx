@@ -3,12 +3,14 @@ import { Link, NavLink } from "react-router-dom";
 import { SiShopware } from "react-icons/si";
 import { MdOutlineCancel } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import { links } from "../data/dummy";
+import { barChartData, links } from "../data/dummy";
 import { itemsToOrder } from "@syncfusion/ej2/treemap";
 import { useStateContext } from "../contexts/ContextProvider";
+import { CurrentLegendRect } from "@syncfusion/ej2/heatmap";
 
 const Sidebar = () => {
-  const { activeMenu, setActiveMenu, screenSize } = useStateContext();
+  const { activeMenu, setActiveMenu, screenSize, currentColor } =
+    useStateContext();
 
   const handldeCloseSideBar = () => {
     if (activeMenu && screenSize <= 900) {
@@ -55,6 +57,9 @@ const Sidebar = () => {
                       to={`$/{link.name}`}
                       key={link.name}
                       onClick={() => handldeCloseSideBar}
+                      style={({ isActive }) => ({
+                        backgroundColor: isActive ? currentColor : "",
+                      })}
                       className={({ isActive }) =>
                         isActive ? activeLink : normalLink
                       }

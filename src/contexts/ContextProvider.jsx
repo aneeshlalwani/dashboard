@@ -1,3 +1,8 @@
+import {
+  MODEL_CHANGED,
+  modelChanged,
+} from "@syncfusion/ej2-react-richtexteditor";
+import { colorMap } from "@syncfusion/ej2/treemap";
 import React, { createContext, useContext, useState } from "react";
 
 // Step 1: Create a new context called StateContext
@@ -16,6 +21,26 @@ export const ContextProvider = ({ children }) => {
   const [activeMenu, setActiveMenu] = useState(true);
   const [isClicked, setIsClicked] = useState(initialState);
   const [screenSize, setScreenSize] = useState(undefined);
+  const [currentColor, setCurrentColor] = useState("#03C9D7");
+  const [currentMode, setCurrentMode] = useState("Light");
+  const [themeSettings, setThemeSettings] = useState(false);
+
+  // Setter Functions
+  const setMode = (e) => {
+    setCurrentMode(e.target.value);
+
+    // Updating the local storage, when user comes back to website, it should've selected theme
+    localStorage.setItem("themeMode", e.target.value);
+    setThemeSettings(false);
+  };
+
+  const setColor = (color) => {
+    setCurrentColor(color);
+
+    // Updating the local storage, when user comes back to website, it should've selected color
+    localStorage.setItem("colorMode", color);
+    setThemeSettings(false);
+  };
 
   // Function to handle click events and update isClicked state
   const handleClick = (clicked) => {
@@ -32,6 +57,12 @@ export const ContextProvider = ({ children }) => {
         handleClick,
         screenSize,
         setScreenSize,
+        currentColor,
+        currentMode,
+        themeSettings,
+        setThemeSettings,
+        setMode,
+        setColor,
       }}
     >
       {children}
